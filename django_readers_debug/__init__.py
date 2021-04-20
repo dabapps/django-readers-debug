@@ -6,6 +6,15 @@ import inspect
 __version__ = "0.0.2"
 
 
+def safe_repr(item):
+    if isinstance(item, str):
+        return item
+    try:
+        return black.format_file_contents(repr(item), fast=False, mode=black.FileMode())
+    except Exception:
+        return "..."
+
+
 def quote_string(string):
     return f'"{string}"'
 
@@ -22,8 +31,8 @@ def quote_strings_in_kwargs(args):
 
 
 def format_args_kwargs(args, kwargs):
-    args = ", ".join(arg for arg in args)
-    kwargs = ", ".join(f"{key}={value}" for key, value in kwargs.items())
+    args = ", ".join(safe_repr(arg) for arg in args)
+    kwargs = ", ".join(f"{key}={safe_repr(value)}" for key, value in kwargs.items())
     return ", ".join([item for item in [args, kwargs] if item])
 
 
@@ -106,6 +115,11 @@ def handle_queryset_function(fn):
     return format_function(f"qs.{name}", args, kwargs)
 
 
+def handle_annotate(fn):
+    vars = inspect.getclosurevars(fn).nonlocals
+    return format_function("annotate", vars["args"], vars["kwargs"])
+
+
 def handle_unknown(fn):
     name = "__lambda__" if fn.__name__ == "<lambda>" else fn.__name__
     return format_function(name, [], {})
@@ -116,6 +130,7 @@ HANDLERS = {
     "include_fields.<locals>.fields_included": handle_include_fields,
     "auto_prefetch_relationship.<locals>.prepare": handle_auto_prefetch_relationship,
     "_method_to_function.<locals>.make_queryset_function.<locals>.queryset_function": handle_queryset_function,
+    "annotate.<locals>.queryset_function": handle_annotate,
 }
 
 

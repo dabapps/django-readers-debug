@@ -37,4 +37,9 @@ qs.pipe(
     ),
     some_queryset_function(),
     __lambda__(),
+    annotate(Count(F(page))),
+    annotate(num_pages=Count(F(page))),
+    annotate(total_pages=Sum(F(intro_pages) + F(other_pages))),
+    annotate(title_upper=Func(F(title), function=UPPER)),
+    annotate(..., custom=...),
 )

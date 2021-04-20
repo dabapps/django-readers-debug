@@ -1,4 +1,4 @@
-from django.db.models import Prefetch, Q
+from django.db.models import Count, F, Func, IntegerField, Prefetch, Q, Sum
 from django.db.models.query import ModelIterable
 from django_readers import qs
 
@@ -33,6 +33,11 @@ def some_queryset_function(queryset):
     return queryset
 
 
+class CustomFunction(Func):
+    def __repr__(self):
+        return "some nonsense"
+
+
 prepare = qs.pipe(
     qs.include_fields("title"),
     qs.auto_prefetch_relationship("author", qs.include_fields("name")),
@@ -59,4 +64,14 @@ prepare = qs.pipe(
     ),
     some_queryset_function,
     lambda queryset: queryset,
+    qs.annotate(Count("page")),
+    qs.annotate(num_pages=Count("page")),
+    qs.annotate(
+        total_pages=Sum(
+            F("intro_pages") + F("other_pages"),
+            output_field=IntegerField(),
+        ),
+    ),
+    qs.annotate(title_upper=Func(F("title"), function="UPPER")),
+    qs.annotate(CustomFunction(), custom=CustomFunction()),
 )
