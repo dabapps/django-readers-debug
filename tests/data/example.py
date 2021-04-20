@@ -7,6 +7,7 @@ class User:
     """
     Quacks just enough like a Django model for the tests to work
     """
+
     class Manager:
         def all(self):
             return self
