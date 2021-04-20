@@ -1,0 +1,43 @@
+qs.pipe(
+    qs.include_fields("title"),
+    qs.auto_prefetch_relationship(
+        "author", prepare_related_queryset=qs.include_fields("name")
+    ),
+    qs.filter(publication_year__gte=2021),
+    qs.filter(models.Q(...)),
+    qs.filter(title__startswith="Space"),
+    qs.exclude(models.Q(...)),
+    qs.select_related("info"),
+    qs.pipe(qs.select_related("info"), qs.include_fields("info__name")),
+    qs.order_by("name"),
+    qs.distinct(),
+    qs.prefetch_related(models.Prefetch("collections")),
+    qs.prefetch_related(
+        models.Prefetch(
+            "owner", queryset=User.objects.__some_queryset__(), to_attr="owner"
+        )
+    ),
+    qs.pipe(
+        qs.include_fields("co_author"),
+        qs.prefetch_related(
+            models.Prefetch(
+                "co_author",
+                queryset=User.objects.__some_queryset__(),
+                to_attr="coauthor",
+            )
+        ),
+    ),
+    qs.pipe(
+        qs.include_fields("pk"),
+        qs.prefetch_related(
+            models.Prefetch("publisher", queryset=User.objects.__some_queryset__())
+        ),
+    ),
+    qs.pipe(
+        qs.include_fields("pk"),
+        qs.prefetch_related(
+            models.Prefetch("collaborators", queryset=User.objects.__some_queryset__())
+        ),
+    ),
+    some_queryset_function(),
+)

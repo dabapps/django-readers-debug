@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -e
+
+black --check django_readers_debug tests
+flake8 django_readers_debug tests
+isort --check --diff django_readers_debug tests
+py.test tests/test*.py $@
