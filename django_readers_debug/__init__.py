@@ -60,7 +60,7 @@ def handle_auto_prefetch_relationship(fn):
 
 
 def format_queryset(queryset):
-    return f"{queryset.model.__name__}.objects.__some_queryset__()"
+    return f"{queryset.model.__name__}.objects.__(...)"
 
 
 def format_prefetch_arg(arg):

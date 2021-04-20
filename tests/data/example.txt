@@ -13,30 +13,26 @@ qs.pipe(
     qs.distinct(),
     qs.prefetch_related(models.Prefetch("collections")),
     qs.prefetch_related(
-        models.Prefetch(
-            "owner", queryset=User.objects.__some_queryset__(), to_attr="owner"
-        )
+        models.Prefetch("owner", queryset=User.objects.__(...), to_attr="owner")
     ),
     qs.pipe(
         qs.include_fields("co_author"),
         qs.prefetch_related(
             models.Prefetch(
-                "co_author",
-                queryset=User.objects.__some_queryset__(),
-                to_attr="coauthor",
+                "co_author", queryset=User.objects.__(...), to_attr="coauthor"
             )
         ),
     ),
     qs.pipe(
         qs.include_fields("pk"),
         qs.prefetch_related(
-            models.Prefetch("publisher", queryset=User.objects.__some_queryset__())
+            models.Prefetch("publisher", queryset=User.objects.__(...))
         ),
     ),
     qs.pipe(
         qs.include_fields("pk"),
         qs.prefetch_related(
-            models.Prefetch("collaborators", queryset=User.objects.__some_queryset__())
+            models.Prefetch("collaborators", queryset=User.objects.__(...))
         ),
     ),
     some_queryset_function(),
