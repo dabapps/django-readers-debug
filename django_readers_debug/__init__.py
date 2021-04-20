@@ -107,7 +107,8 @@ def handle_queryset_function(fn):
 
 
 def handle_unknown(fn):
-    return format_function(fn.__name__, [], {})
+    name = "__lambda__" if fn.__name__ == "<lambda>" else fn.__name__
+    return format_function(name, [], {})
 
 
 HANDLERS = {

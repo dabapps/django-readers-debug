@@ -58,4 +58,5 @@ prepare = qs.pipe(
         "collaborators", User.objects.all(), qs.include_fields("name")
     ),
     some_queryset_function,
+    lambda queryset: queryset,
 )
