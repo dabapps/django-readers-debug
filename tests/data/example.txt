@@ -36,4 +36,5 @@ qs.pipe(
         ),
     ),
     some_queryset_function(),
+    __lambda__(),
 )
