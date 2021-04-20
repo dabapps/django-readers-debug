@@ -3,7 +3,7 @@ from django.db import models
 import black
 import inspect
 
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 
 
 def quote_string(string):
