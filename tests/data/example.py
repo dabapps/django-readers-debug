@@ -1,8 +1,12 @@
 from django.db.models import Prefetch, Q
+from django.db.models.query import ModelIterable
 from django_readers import qs
 
 
 class User:
+    """
+    Quacks just enough like a Django model for the tests to work
+    """
     class Manager:
         def all(self):
             return self
@@ -12,6 +16,9 @@ class User:
 
         class query:
             deferred_loading = [[]]
+
+        class _iterable_class(ModelIterable):
+            pass
 
         class User:
             pass
