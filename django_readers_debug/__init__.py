@@ -127,7 +127,7 @@ def handle_unknown(fn):
         name = f"{fn.__self__.__class__.__name__}.{fn.__name__}"
     else:
         name = fn.__name__
-    return format_function(f"{name}", [], {})
+    return format_function(name, [], {})
 
 
 HANDLERS = {
