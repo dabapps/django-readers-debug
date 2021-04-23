@@ -33,6 +33,11 @@ def some_queryset_function(queryset):
     return queryset
 
 
+class SomeClass:
+    def some_queryset_function(self, queryset):
+        return queryset
+
+
 class CustomFunction(Func):
     def __repr__(self):
         return "some nonsense"
@@ -63,6 +68,7 @@ prepare = qs.pipe(
         "collaborators", User.objects.all(), qs.include_fields("name")
     ),
     some_queryset_function,
+    SomeClass().some_queryset_function,
     lambda queryset: queryset,
     qs.annotate(Count("page")),
     qs.annotate(num_pages=Count("page")),
