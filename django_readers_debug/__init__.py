@@ -121,8 +121,13 @@ def handle_annotate(fn):
 
 
 def handle_unknown(fn):
-    name = "__lambda__" if fn.__name__ == "<lambda>" else fn.__name__
-    return format_function(name, [], {})
+    if fn.__name__ == "<lambda>":
+        name = "__lambda__"
+    elif inspect.ismethod(fn):
+        name = f"{fn.__self__.__class__.__name__}.{fn.__name__}"
+    else:
+        name = fn.__name__
+    return format_function(f"{name}", [], {})
 
 
 HANDLERS = {

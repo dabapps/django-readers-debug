@@ -36,6 +36,7 @@ qs.pipe(
         ),
     ),
     some_queryset_function(),
+    SomeClass.some_queryset_function(),
     __lambda__(),
     annotate(Count(F(page))),
     annotate(num_pages=Count(F(page))),
