@@ -1,5 +1,5 @@
 black
 django-readers
-flake8==3.8.4
-isort==5.7.0
-pytest==6.2.3
+flake8==4.0.1
+isort==5.10.1
+pytest==6.2.5
